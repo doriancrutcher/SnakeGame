@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+  <link href="CSS/style.css" rel="stylesheet" type="text/css">
+ </head>
+<body>
+    
+    <br>
+    <div class='gameOver'>Game Over!</div>
+    <div class="gameWindow">
+    <div class="title"><h1>Simple Snake Game</h1></div>
+    
+    
+  <div class="gameBox">
+  <canvas id="SnakeC" width='800px' height='800px' >
+   </div>
+      </div>
+    <script>
+   window.onload=function(){
+     canv=document.querySelector("#SnakeC");
+     ctx=canv.getContext('2d');
+     setInterval(gameMode,1000/100);
+   }
+      
+     //initial Values
+      px=py=400;// player initial position
+      ax=ay=100;// apple initial position
+      vx=vy=0;//player initial speed
+      tail=5; //initial tail length
+      trailX=[];
+      trailY=[];
+         window.addEventListener('keydown',function(e){
+       switch(e.keyCode){
+         case 37:
+           vx=-1;
+           vy=0;
+           break;
+           
+           case 38:
+           vx=0;
+           vy=-1;
+           break;
+           
+           case 39:
+           vx=1;
+           vy=0;
+           console.log('right');
+           break;
+           
+           
+           case 40:
+           vx=0;
+           vy=1;
+           break;
+           
+       }
+     });
+      
+      function gameMode(){
+
+        
+        if(px>canv.width-10){
+          px=10;
+        }; 
+         if(px<10){
+          px=canv.width-10;
+        };
+        
+        if(py>canv.height-10){
+          py=10;
+        }; 
+        
+         if(py<10){
+          py=canv.height-10;
+        };
+        
+    
+        px+=vx;
+        py+=vy;
+        
+         ctx.clearRect(0,0,canv.width,canv.height);
+        
+        
+        ctx.fillStyle='black';
+        ctx.fillRect(0,0,canv.width,canv.height);
+        
+        for(var i=0; i<tail; i++){
+        ctx.fillStyle='green';
+        ctx.fillRect(trailX[i],trailY[i],50,50);
+        };
+        
+        trailX.unshift(px);
+        trailY.unshift(py);
+        
+        if(trailX.length>tail){
+          trailX.pop();
+        }
+           if(trailY.length>tail){
+          trailY.pop();
+        }
+          for(var i=1;i<trailX.length;i++){
+         if(px!==400&&py!==400) {if(px==trailX[i]&&trailY[i]===py){$('.gameOver').style.display='block'}
+          }}
+          
+        
+        ctx.fillStyle='red';
+        ctx.fillRect(ax,ay,50,50);
+ 
+               
+        if((px>ax-10&&px<ax+60)&&(py>ay-10&&py<ay+60)){
+          tail+=100;
+          ax=Math.floor(800*Math.random());
+          ay=Math.floor(800*Math.random());
+          
+        };
+          
+          
+        
+        
+      }
+        
+        function $(x){
+            return document.querySelector(`${x}`);
+        }
+    </script>
+</body>
+</html>
